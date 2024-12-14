@@ -22,6 +22,8 @@ def main():
 
     clock = pygame.time.Clock()
     dt = 0
+    score = 0
+    time_lived = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     print("Starting asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -37,6 +39,17 @@ def main():
 
         
         screen.fill("black")
+
+        time_lived += dt
+
+        font = pygame.font.Font(None, 36)
+        score_text = font.render(f'Score: {score}', True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))
+
+        font = pygame.font.Font(None, 36)
+        time_lived_text = font.render(f'Time Lived: {time_lived:.1f}', True, (255, 255, 255))
+        screen.blit(time_lived_text, (10, 50))
+
         for entity in drawable:
             entity.draw(screen)
         for entity in updatable:
@@ -52,7 +65,7 @@ def main():
         for asteroid in asteroids:
             for shot in shots:
                 if shot.check_collision(asteroid):
-                    asteroid.split()
+                    score += asteroid.split()
                     shot.kill()
 
        
